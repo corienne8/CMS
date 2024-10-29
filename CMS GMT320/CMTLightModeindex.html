@@ -14,7 +14,7 @@
   #helpbtn {
     position: fixed; 
     right: 20px; 
-    top: 80px; 
+    top: 55px; 
     width: 25px;
     height: 25px;
     border-radius: 50%; /* Circular shape */
@@ -24,7 +24,7 @@
   #helpbtn img {
   position: fixed; 
   right: 20px; 
-  top: 78px; 
+  top: 50px; 
   border-radius: 50%;
 }
 
@@ -95,7 +95,105 @@
   #ToggleButton:hover::before {
     opacity: 1; /* Show text on hover */
   }
-  
+  #timebtn {
+    position: fixed; 
+    bottom: 73%; 
+    right: 1px; 
+    border: none; 
+    z-index: 1000;
+}
+ /* Hover effect */
+    /* Hover effect with text */
+    #timebtn::before {
+    content: "UP Timeline";
+    opacity: 0;
+    color: white;
+    position: absolute;
+    left: -50px; /* Position the text to the left of the button */
+    font-size: 16px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+  }
+
+  #timebtn:hover::before {
+    opacity: 1; /* Show text on hover */
+  }
+
+
+#timeline {
+  position: fixed;
+  z-index: 1000;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  border-top: 2px solid #ccc;
+  display: none; /* Hidden by default */
+}
+
+.timeline-container {
+  display: flex;
+  z-index: 1000;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.timeline-item {
+  padding: 5px;
+  z-index: inherit;
+  background-color: #0c4685;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer; 
+}
+
+.hidden {
+  display: none;
+}
+
+/* Styles for the modal */
+.modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000; /* Ensure it appears on top of other elements */
+    }
+    .modal-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      max-width: 90%; /* To ensure responsiveness */
+      max-height: 90%;
+      overflow: auto; /* Scroll if content is too large */
+    }
+    .modal-content img {
+      max-width: 100%;
+      height: 550px;
+      width: 750px; 
+      border-radius: 5px;
+    }
+    .closebtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      padding: 5px 10px;
+      background-color: rgb(225, 7, 41);
+      color: White;
+      border-radius: 3px;
+      text-decoration: none;
+      font-size: 14px;
+      z-index: 1000;
+    }
   </style>
 <script src="./threejs/three.min.js"></script>
 <script src="./threejs/OrbitControls.js"></script>
@@ -138,6 +236,36 @@
     <p>Have Fun and Explore!</p>
   </div>
 </div>
+<!-- Timeline -->
+<button id="timebtn">
+  <img src="timelinebtn.jpg" alt="clock icon" height="35" width="95">
+</button>
+
+<div id="timeline" class="hidden">
+<div class="timeline-container">
+  <button class="timeline-item" onclick="openModal('1890.jpg')">1890s</button>        
+  <button class="timeline-item" onclick="openModal('11.jpg')">1900s</button>
+  <button class="timeline-item" onclick="openModal('12.jpg')">1910s</button>
+  <button class="timeline-item" onclick="openModal('13.jpg')">1920s</button>
+  <button class="timeline-item" onclick="openModal('14.jpg')">1930s</button>
+  <button class="timeline-item" onclick="openModal('15.jpg')">1940s</button>
+  <button class="timeline-item" onclick="openModal('16.jpg')">1950s</button>
+  <button class="timeline-item" onclick="openModal('17.jpg')">1960s</button>
+  <button class="timeline-item" onclick="openModal('18.jpg')">1970s</button>
+  <button class="timeline-item" onclick="openModal('19.jpg')">1980s</button>
+  <button class="timeline-item" onclick="openModal('20.jpg')">1990s</button>
+  <button class="timeline-item" onclick="openModal('21.jpg')">2000s</button>
+  <button class="timeline-item" onclick="openModal('22.jpg')">2010s</button>
+  <button class="timeline-item" onclick="openModal('present.jpg')">Present</button>
+</div>
+</div>
+
+
+<div id="modal" class="modal">
+<div class="modal-content" id="modal-content">
+  <span class="closebtn" onclick="closeModal()">X</span>
+</div>
+</div>
 
 <style>
   /* Overlay styling */
@@ -173,9 +301,10 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    font-size: 14px;
+    font-size: 20px;
     border: none;
-    background: none;
+    color: white;
+    background: red;
     cursor: pointer;
   }
   .popup-content {
@@ -197,6 +326,30 @@
   function closePopup() {
       document.getElementById("popup1").style.display = "none";
       document.getElementById("overlay").style.display = "none"; 
+  }
+  document.getElementById('timebtn').addEventListener('click', function() {
+        const timeline = document.getElementById('timeline');
+        if (timeline.classList.contains('hidden')) {
+            timeline.classList.remove('hidden');
+            timeline.style.display = 'block';
+        } else {
+            timeline.classList.add('hidden');
+            timeline.style.display = 'none';
+        }
+    });
+
+    function openModal(imageSrc) {
+    const modal = document.getElementById("modal");
+    const modalContent = document.getElementById("modal-content");
+
+    // Set the inner HTML of modal content to display the image
+    modalContent.innerHTML = `<img src="${imageSrc}" alt="Modal Image">` +
+                             '<span class="close-btn" onclick="closeModal()">X</span>';
+    modal.style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
   }
 </script>
 
