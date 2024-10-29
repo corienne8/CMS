@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GMT_Processing</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<base target="_blank">
+<link rel="stylesheet" type="text/css" href="./Qgis2threejs.css">
+<style type="text/css">
+  #popup, #layerpanel {
+    left: 36px;
+  }
+  
+  #helpbtn {
+    position: fixed; 
+    right: 20px; 
+    top: 80px; 
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; /* Circular shape */
+    cursor: pointer;
+    z-index: 1000;
+  }
+  #helpbtn img {
+  position: fixed; 
+  right: 20px; 
+  top: 78px; 
+  border-radius: 50%;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+#header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+#search-bar {
+  margin-left: auto; 
+}
+
+#search-bar input {
+  padding: 5px;
+  font-size: 16px;
+}
+
+#ToggleButton {
+    position: fixed;
+    bottom: 66%; /* Adjust the distance from the bottom */
+    left: 95%;
+    transform: translateX(-50%); /* Center the button horizontally */
+    
+    /* Styling */
+    
+    font-size: 16px;
+    color: #fff;
+    background-color: #000000; /* Dark background */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1000; /* Make sure it appears in front of other elements */
+  }
+  #ToggleButton img {
+    width: 105px; /* Adjust image size */
+    
+}
+  
+  /* Hover effect */
+    /* Hover effect with text */
+    #ToggleButton::before {
+    content: "Night or Day";
+    opacity: 0;
+    color: white;
+    position: absolute;
+    left: -50px; /* Position the text to the left of the button */
+    font-size: 16px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+  }
+
+  #ToggleButton:hover::before {
+    opacity: 1; /* Show text on hover */
+  }
+  
+  </style>
+<script src="./threejs/three.min.js"></script>
+<script src="./threejs/OrbitControls.js"></script>
+<script src="./threejs/ViewHelper.js"></script>
+<script src="./tweenjs/tween.js"></script>
+<script src="./Qgis2threejs.js"></script>
+<script src="./threejs/loaders/GLTFLoader.js"></script>
+<script src="./dat-gui/dat.gui.min.js"></script>
+<script src="./dat-gui_panel.js"></script>
+</head>
+<body>
+  <div id="header">
+    <h1>UNIVERSITY OF PRETORIA: HATFIELD CAMPUS</h1>
+    <div id="search-bar">
+      <input type="text" placeholder="Search...">
+    </div>
+  </div>
+
+  <!--helpbtn container-->
+<!-- Help button container -->
+<button id="helpbtn" onclick="openPopup()">
+  <img src="help.jpg" height="35" width="35"> 
+</button>
+
+<!-- Overlay for backdrop that closes popup on click -->
+<div class="overlay" id="overlay" onclick="closePopup()"></div> 
+
+<!-- Popup container -->
+<div class="popup" id="popup1">
+  <button class="close-btn" onclick="closePopup()">X</button>
+  <div class="popup-content">
+    <h2>Instructions</h2>
+    <p>The panel on the left side of the screen can be extended and toggled.</p>
+    <p>The layer items can be toggled on and off and made transparent with the slider:</p>
+    <img src="Layers.JPG" alt="step image 2">
+    <img src="Layers_Extended.JPG" alt="step image 2">
+    <p>Further guidance can be found in the help button and layerpanel:</p>
+    <img src="helppic.JPG" alt="step image 2">
+    <img src="help.jpg" alt="step image 2">
+    <p>Have Fun and Explore!</p>
+  </div>
+</div>
+
+<style>
+  /* Overlay styling */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+    display: none; /* Hidden by default */
+    z-index: 2000;
+  }
+
+  /* Centered popup styling */
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; /* Smaller popup width */
+    max-width: 80%;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 3000;
+  }
+
+  /* Close button */
+  .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  .popup-content {
+    text-align: center;
+}
+  /* Popup content images */
+  .popup-content img {
+    width: 145px; 
+    height: 100px; 
+  }
+</style>
+
+<script>
+  function openPopup() {
+      document.getElementById("popup1").style.display = "block"; 
+      document.getElementById("overlay").style.display = "block";
+  }
+
+  function closePopup() {
+      document.getElementById("popup1").style.display = "none";
+      document.getElementById("overlay").style.display = "none"; 
+  }
+</script>
+
+<button id="ToggleButton"> <img src = 'modebtn.jpg'  height= "35" width="95"></button>
+
+<script>
+  const ToggleButton = document.getElementById('ToggleButton');
+  ToggleButton.addEventListener('click', () => {
+    document.getElementById('view').classList.toggle('dark'); // Toggle 'dark' class on #view element
+  });
+</script>
+
+<button id="mapButton" onclick="window.open('https://www.google.com/maps/d/edit?mid=11zfUtH3mfiyO_NSkuh3x2JkNXlwTkqI&usp=sharing', '_blank');">
+  <img src = 'gate.jpg' height= "35" width="95">
+</button>
+
+<style>
+  #mapButton {
+    position: fixed;
+    left: 90%; /* Distance from the right edge */
+    top: 40%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    z-index: 1000; /* Make sure it appears above other elements */
+  }
+  #mapButton img{
+    width: 105px;
+  }
+
+  /* Hover effect with text */
+  #mapButton::before {
+    content: "University Entrances";
+    opacity: 0;
+    color: white;
+    position: absolute;
+    left: -50px; /* Position the text to the left of the button */
+    font-size: 16px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+  }
+
+  #mapButton:hover::before {
+    opacity: 1; /* Show text on hover */
+  }
+</style>
+
+
+<div id="view">
+  <div id="northarrow"></div>
+  <div id="navigation"></div>
+</div>
+
+<!-- popup -->
+<div id="popup">
+  <div id="closebtn">&times;</div>
+  <div id="popupbar"></div>
+  <div id="popupbody">
+    <div id="popupcontent"></div>
+
+    <!-- query result -->
+    <div id="queryresult">
+      <table id="qr_coords_table">
+        <caption>Clicked coordinates <div id="zoomtopoint" class="action-zoom zoombtn"></div></caption>
+        <tr><td id="qr_coords"></td></tr>
+      </table>
+
+      <table id="qr_layername_table">
+        <caption>Layer <div id="zoomtolayer" class="action-zoom zoombtn"></div></caption>
+        <tr><td id="qr_layername"></td></tr>
+      </table>
+
+      <table id="qr_attrs_table">
+        <caption>Attributes</caption>
+      </table>
+
+      <!-- camera actions and measure tool -->
+      <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
+      <div id="measurebtn" class="action-btn">Measure distance</div>
+    </div>
+
+    <!-- page info -->
+    <div id="pageinfo">
+      <h1>Current View URL</h1>
+      <div><input id="urlbox" type="text"></div>
+
+      <h1>Usage</h1>
+      <table id="usage">
+        <tr><td colspan="2" class="star">Mouse</td></tr>
+        <tr><td>Left button + Move</td><td>Orbit</td></tr>
+        <tr><td>Mouse Wheel</td><td>Zoom</td></tr>
+        <tr><td>Right button + Move</td><td>Pan</td></tr>
+
+        <tr><td colspan="2" class="star">Keys</td></tr>
+        <tr><td>Arrow keys</td><td>Move Horizontally</td></tr>
+        <tr><td>Shift + Arrow keys</td><td>Orbit</td></tr>
+        <tr><td>Ctrl + Arrow keys</td><td>Rotate</td></tr>
+        <tr><td>Shift + Ctrl + Up / Down</td><td>Zoom In / Out</td></tr>
+        <tr><td>L</td><td>Toggle Label Visibility</td></tr>
+        <tr><td>R</td><td>Start / Stop Orbit Animation</td></tr>
+        <tr><td>W</td><td>Wireframe Mode</td></tr>
+        <tr><td>Shift + R</td><td>Reset Camera Position</td></tr>
+        <tr><td>Shift + S</td><td>Save Image</td></tr>
+      </table>
+
+      <h1>About</h1>
+      <div id="about">
+        This page was made with <a href="https://www.qgis.org/">QGIS</a> and <a href="https://github.com/minorua/Qgis2threejs">Qgis2threejs</a> plugin (version 2.7.3).
+        <div>Powered by <a href="https://threejs.org/">three.js</a>,
+        <a href="https://code.google.com/p/dat-gui/">dat-gui</a>
+        <span id="lib_proj4js"> and <a href="https://trac.osgeo.org/proj4js/">Proj4js</a></span>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- progress bar -->
+<div id="progress"><div id="progressbar"></div></div>
+
+<!-- header and footer -->
+<div id="header"></div>
+<div id="footer"></div>
+
+<!-- animation -->
+<div id="narrativebox" class="ef1">
+  <div id="narbody">
+
+  </div>
+  <div id="nextbtn"></div>
+</div>
+
+<script>
+Q3D.Config.localMode = true;
+Q3D.Config.gui.customPlane = true;
+Q3D.Config.animation.enabled = true;
+Q3D.Config.animation.startOnLoad = true;
+
+var container = document.getElementById("view"),
+    app = Q3D.application,
+    gui = Q3D.gui;
+
+app.init(container);    // initialize viewer
+
+// load the scene
+app.loadSceneFile("./data/CMTLightModeindex/scene.js", function (scene) {
+  // scene file has been loaded
+  app.start();
+
+  gui.dat.initLayersFolder(scene);
+
+}, function (scene) {
+  // all relevant files have been loaded
+
+  if (Q3D.Config.gui.customPlane) {
+    // specify preferred values. If not specified, z range of scene bounding box is used.
+    var zMin = undefined,
+        zMax = undefined;
+    gui.dat.initCustomPlaneFolder(zMin, zMax);
+  }
+});
+</script>
+</body>
+</html>
