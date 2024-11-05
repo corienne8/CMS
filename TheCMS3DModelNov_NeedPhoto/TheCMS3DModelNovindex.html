@@ -170,6 +170,49 @@
     opacity: 1; /* Show text on hover */
   }
 
+  /*HELP POP-UP STYLING*/ 
+  .popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    max-width: 600px;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.popup-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: red;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+img {
+    margin-top: 20px;
+}
+
 </style>
 
 <!--------------------------------------CODE FOR THE CONTENTS OF THE HEADER (TITLE AND TOOLBAR)------------------------------------------------------------------>
@@ -189,6 +232,17 @@
 </header>
 
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<div id="helpPopup" class="popup">
+  <div class="popup-content">
+      <button class="close-button" id="closeButton">&times;</button>
+      <h2>Instructions</h2>
+      <p>Here are some helpful instructions for using this Web Map:</p>
+      <p><img src="help_contents.jpg" alt="Instructions Image" width="550" height="500"></p>
+  </div>
+</div>
+
+<!----------------------------------------CODE FOR THE HELP BUTTON POP-UP----------------------------------------------------------------------------------------->
+
 
 
 <body>
@@ -291,6 +345,39 @@ app.loadSceneFile("./data/TheCMS3DModelNovindex/scene.js", function (scene) {
     gui.dat.initCustomPlaneFolder(zMin, zMax);
   }
 });
+
+//-----------------------------------------------------------------------------------------------------------------//
+  /*CODE FOR THE MODE BUTTUN - SWITCH BETWEEN DAY AND NIGHT*/ 
+  const ToggleButton = document.getElementById('ToggleButton');
+  ToggleButton.addEventListener('click', () => {
+    document.getElementById('view').classList.toggle('dark'); // Toggle 'dark' class on #view element
+  });
+
+//-----------------------------------------------------------------------------------------------------------------//
+
+// Get elements
+const helpButton = document.getElementById('helpbtn');
+const helpPopup = document.getElementById('helpPopup');
+const closeButton = document.getElementById('closeButton');
+
+// Show the popup when the Help button is clicked
+helpbtn.addEventListener('click', function() {
+    helpPopup.style.display = 'block';
+});
+
+// Close the popup when the close button is clicked
+closeButton.addEventListener('click', function() {
+    helpPopup.style.display = 'none';
+});
+
+// Close the popup if the user clicks anywhere outside of it
+window.addEventListener('click', function(event) {
+    if (event.target === helpPopup) {
+        helpPopup.style.display = 'none';
+    }
+});
+
+
 </script>
 </body>
 </html>

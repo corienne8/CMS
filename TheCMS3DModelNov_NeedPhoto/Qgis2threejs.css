@@ -21,6 +21,11 @@ body {
   background: linear-gradient(to bottom, #98c8f6 0%,#cbebff 40%,#f0f9ff 100%);
 }
 
+#view.sky.dark {
+  background: -webkit-gradient(linear, left top, left bottom, from(#000000), color-stop(0.4, #252b55), to(#f0f9ff));
+  background: linear-gradient(to bottom, #272075 0%,#203749 40%,#222867 100%);
+}
+
 .hidden {
   display: none !important;
 }
