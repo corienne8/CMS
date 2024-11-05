@@ -1,0 +1,92 @@
+//code for search - should og in head, not sure....
+<script>
+  // Building data object with hardcoded information for "Geography" and "Zoology"
+  const buildingsData = {
+      "geography": {
+          centroid: { x: -130.54077622125624, y: 105.32367919012904, z: 1368.8699951171875 }
+      },
+      "club hall": {
+          centroid: { x: -244.7958096890361, y: 24.112471758387983, z:  1366.7327880859375 }
+      },
+      "rautenbach": {
+          centroid: { x: -291.29433247329143, y: 51.39236497879028, z: 1364.3936767578125 }
+      },
+      "auditorium": {
+          centroid: { x: 187.16469507754664, y: -96.35334910824895, z: 1373.86181640625 }
+      },
+      "conference center": {
+          centroid: { x: 178.04596348822815, y: -58.369971856009215, z: 1374.1981201171875 }
+      },
+      "graduate center": {
+          centroid: { x: 277.29843367173453, y: -63.800733677111566, z: 1376.283203125 }
+      }
+      // Add additional buildings here if needed
+  };
+
+  window.onload = function() {
+      document.getElementById('search-btn').addEventListener('click', function () {
+          // Get the user input, normalize it to lowercase
+          const searchInput = document.getElementById('search-input').value.toLowerCase();
+
+          // Find the building data by name
+          const buildingData = buildingsData[searchInput];
+          if (!buildingData) {
+              alert("Building not found.");
+              return;
+          }
+
+          // Set camera position and look at the building
+          const { x, y, z } = buildingData.centroid;
+          Q3D.application.camera.position.set(x, y + 70, z + 70); // Set a higher, zoomed-out position
+          Q3D.application.camera.lookAt(new THREE.Vector3(x, y, z));
+          Q3D.application.camera.rotation.x = THREE.MathUtils.degToRad(-30); // Tilt camera downwards
+
+          Q3D.application.render(); // Re-render the scene to reflect the camera change
+          alert("Zoomed to " + searchInput.charAt(0).toUpperCase() + searchInput.slice(1) + " building.");
+      });
+  };
+</script>
+//html for button 
+<div id="search-container">
+      <input type="text" id="search-input" placeholder="Enter building name">
+      <button id="search-btn">Search</button>
+    </div>
+//styling
+#search-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 20px; /* Adjust as needed */
+}
+
+#search-input {
+  padding: 8px 12px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+#search-input:focus {
+  border-color: #0c4685; /* Matches the timeline button color */
+}
+
+#search-btn {
+  padding: 8px 16px;
+  background-color: #0c4685; /* Same color as timeline items */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#search-btn:hover {
+  background-color: #07396b;
+}
+
+#search-btn:active {
+  transform: scale(0.98); /* Adds a slight "press" effect */
+}
