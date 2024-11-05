@@ -54,7 +54,7 @@
   .header-toolbar button img {
   width: 40px;
   height: 40px;
-  transition: transform 0.2s;
+  /*transition: transform 0.2s;*/ 
   z-index: 1000
   }
 
@@ -156,7 +156,6 @@
     opacity: 0;
     color: white;
     position: absolute;
-    bottom: 50%; 
     font-size: 12px;
     padding: 5px;
     background-color: #333;
@@ -170,8 +169,8 @@
     opacity: 1; /* Show text on hover */
   }
 
-  /*HELP POP-UP STYLING*/ 
-  .popup {
+    /*HELP POP-UP STYLING*/ 
+    .helpPopup1 {
     display: none; /* Hidden by default */
     position: fixed;
     top: 50%;
@@ -184,12 +183,12 @@
     z-index: 1000;
 }
 
-.popup-content {
+.popup-content1 {
     padding: 20px;
     text-align: center;
 }
 
-.close-button {
+.close-button1 {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -200,7 +199,7 @@
     cursor: pointer;
 }
 
-.close-button:hover {
+.close-button1:hover {
     color: red;
 }
 
@@ -209,9 +208,62 @@ h2 {
     margin-bottom: 20px;
 }
 
-img {
-    margin-top: 20px;
+
+/*------------------------------------------------------------------search bar---------------------------------------------------------------------------------*/ 
+#searchBar {
+  display: none; /* Hide the search bar initially */
+  background-color: #05347e;
+  position: absolute;
+  width: 425px; 
+  top: 70px; /* Position below the header */
+  right: 20px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 4px;
+  z-index: 1000;
 }
+
+#searchInput {
+  padding: 8px;
+  font-size: 16px;
+  color: #05347e;
+  border: 1px solid #05347e;
+  font-weight: bold;
+  border-radius: 4px;
+  flex-grow: 1;
+  z-index: 1000;
+}
+
+#searchBtn, #closeBtn {
+  padding: 8px 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+#closeBtn {
+  background-color: #f44336;
+  color: white;
+  border-radius: 50%;
+  z-index: 1000;
+}
+
+#searchBtn {
+  background-color: #05347e;
+  color: white;
+  z-index: 1000;
+}
+
+#searchBtn:hover {
+  
+}
+
 
 </style>
 
@@ -221,27 +273,39 @@ img {
   <h1>Welcome to the University of Pretoria: Hatfield Campus 3D Model</h1>
 </div>
 <div class="header-toolbar">
-  <button id ="helpbtn"><img src="help.jpg" alt="Icon 1"></button>
+  <!----------------------------------------CODE FOR THE SEARCH BUTTON POP-UP----------------------------------------------------------------------------------------->
+  <!-- Search bar (initially hidden) -->
+  <div id="searchBar" class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search Building Name...">
+    <button id="searchBtn">Search</button>
+    <button id="closeBtn">&times;</button>
+  </div>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
+  <button id="search"><img src="search.jpg" alt="Icon 5"></button>
   <button id="ToggleButton" onclick="toggleImage()"><img src="nigth.jpg" alt="Icon 2" data-alt="day.jpg"></button>
   <button id="mapButton" onclick="window.open('https://www.google.com/maps/d/edit?mid=11zfUtH3mfiyO_NSkuh3x2JkNXlwTkqI&usp=sharing', '_blank');">
     <img src="gate.jpg" alt="Icon 3">
   </button>
   <button id="timebtn"><img src="timeline.jpg" alt="Icon 4"></button>
-  <button id="search"><img src="search.jpg" alt="Icon 5"></button>
+  <button id ="helpbtn"><img src="help.jpg" alt="Icon 1"></button>
+  
 </div>
 </header>
-
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="helpPopup" class="popup">
-  <div class="popup-content">
-      <button class="close-button" id="closeButton">&times;</button>
+
+<!----------------------------------------CODE FOR THE HELP BUTTON POP-UP----------------------------------------------------------------------------------------->
+<div id="helpPopup" class="helpPopup1">
+  <div class="popup-content1">
+      <button class="close-button" id="closeButton1">&times;</button>
       <h2>Instructions</h2>
       <p>Here are some helpful instructions for using this Web Map:</p>
       <p><img src="help_contents.jpg" alt="Instructions Image" width="550" height="500"></p>
   </div>
 </div>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-<!----------------------------------------CODE FOR THE HELP BUTTON POP-UP----------------------------------------------------------------------------------------->
+
+
 
 
 
@@ -355,10 +419,13 @@ app.loadSceneFile("./data/TheCMS3DModelNovindex/scene.js", function (scene) {
 
 //-----------------------------------------------------------------------------------------------------------------//
 
+
+//-----------------------------------------------------------------------------------------------------------------//
+//CODE FOR THE HELP BUTTON POP-UP// 
 // Get elements
-const helpButton = document.getElementById('helpbtn');
+const helpbtn = document.getElementById('helpbtn');
 const helpPopup = document.getElementById('helpPopup');
-const closeButton = document.getElementById('closeButton');
+const closeButton = document.getElementById('closeButton1');
 
 // Show the popup when the Help button is clicked
 helpbtn.addEventListener('click', function() {
@@ -376,6 +443,26 @@ window.addEventListener('click', function(event) {
         helpPopup.style.display = 'none';
     }
 });
+//-----------------------------------------------------------------------------------------------------------------//
+
+//-----------------------------------------------------------------------------------------------------------------//
+//CODE FOR THE SEARCH BAR//
+// Get references to elements
+const search = document.getElementById('search');
+const searchBar = document.getElementById('searchBar');
+const closeBtn = document.getElementById('closeBtn');
+
+// When the 'searchbtn1' button is clicked, show the search bar
+search.addEventListener('click', () => {
+  searchBar.style.display = 'flex'; // Show the search bar
+});
+
+// When the 'closeBtn' button is clicked, hide the search bar
+closeBtn.addEventListener('click', () => {
+  searchBar.style.display = 'none'; // Hide the search bar
+});
+
+//-----------------------------------------------------------------------------------------------------------------//
 
 
 </script>

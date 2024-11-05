@@ -48,7 +48,6 @@ Q3D.gui.dat = {
 		this.gui = panel;
 		panel.domElement.style.position = "absolute"; 
 		panel.domElement.style.top = "70px"; 
-		panel.domElement.style.fontSize = "15px"
 
 		if (setupDefaultItems) {
 			this.layersFolder = panel.addFolder('Layers');

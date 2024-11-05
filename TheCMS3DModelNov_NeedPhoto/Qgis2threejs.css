@@ -197,10 +197,11 @@ body {
 }
 
 #closebtn:hover {
-  background-color: #eee;
+  background-color: red;
 }
 
 #popupbody {
+  background-color: #05347e;
   padding: 0px 5px 5px;
   min-width: 290px;
   max-height: 500px;
@@ -217,7 +218,7 @@ body {
 }
 
 #popupbody table caption {
-  background-color: gray;
+  background-color: rgb(8, 8, 59);
   color: white;
   font-size: small;
   padding: 1px 1px 1px 6px;
@@ -227,22 +228,27 @@ body {
 
 #popupbody table td {
   padding-left: 5px;
+  color: white;
 }
 
 #qr_layername_table tr, #qr_coords_table tr {
-  background-color: #eee;
+  background-color: #05347e;
+  color: white; 
 }
 
 #qr_attrs_table tr:nth-child(odd) {
-  background-color: #eee;
+  background-color: rgb(8, 8, 59);
+  color: white; 
 }
 
 #qr_attrs_table tr td:first-child {
   width: 40%;
+  color: white;
 }
 
 .action-zoom {
   cursor: pointer;
+  color: white;
   float: right;
   padding: 0 1px 0;
   width: 15px;
@@ -253,12 +259,14 @@ body {
 .action-zoom:hover {
   background-color: #eee;
   border-radius: 3px;
+  color: black; 
   filter: none;
 }
 
 .action-btn {
   display: inline-block;
   border: 1px solid lightgray;
+  color: white;
   cursor: pointer;
   font-size: small;
   padding: 2px 4px;
@@ -267,6 +275,7 @@ body {
 
 .action-btn:hover {
   background-color: #eee;
+  color: black; 
 }
 
 /* pageinfo */
