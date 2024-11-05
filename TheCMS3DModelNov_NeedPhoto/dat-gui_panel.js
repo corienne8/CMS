@@ -46,6 +46,9 @@ Q3D.gui.dat = {
 		panel.domElement.parentElement.style.zIndex = 2000;   // display the panel on the front of labels
 
 		this.gui = panel;
+		panel.domElement.style.position = "absolute"; 
+		panel.domElement.style.top = "70px"; 
+		panel.domElement.style.fontSize = "15px"
 
 		if (setupDefaultItems) {
 			this.layersFolder = panel.addFolder('Layers');
@@ -187,6 +190,6 @@ Q3D.gui.dat = {
 	};
 
 	_this.addHelpButton = function () {
-		panel.add(this.parameters, 'i').name('Help');
+		panel.add(this.parameters, 'i').name('Navigation');
 	};
 })();

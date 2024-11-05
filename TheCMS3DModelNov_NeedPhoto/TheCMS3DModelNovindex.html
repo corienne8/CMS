@@ -15,6 +15,182 @@
 <script src="./dat-gui/dat.gui.min.js"></script>
 <script src="./dat-gui_panel.js"></script>
 </head>
+<style>
+  #layerpanel {
+  left: 36px;
+  top: 35px; 
+}
+
+#popup {
+  right: 5px; 
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+  body {
+  font-family: Arial, sans-serif;
+  }
+
+  .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  border-bottom: #05347e;
+  border-style: outset;
+  color: #05347e;
+  }
+
+  .header-title h1 {
+  font-size: 1.5em;
+  color: #05347e; 
+  }
+
+  .header-toolbar button img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.2s;
+  z-index: 1000
+  }
+
+  .header-toolbar button {
+  background: navy;
+  border: white;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  }
+
+  .header-toolbar button:hover img {
+  transform: scale(1.1);
+  }
+
+  /* Hover effect */
+    /* Hover effect with text */
+    #ToggleButton::before {
+    content: "Day/Night";
+    opacity: 0;
+    color: white;
+    position: absolute;
+    font-size: 12px;
+    padding: 5px;
+    background-color: #333;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+
+  #ToggleButton:hover::before {
+    opacity: 1; /* Show text on hover */
+  }
+
+  /* TIMELINE STYLING */ 
+ /* Hover effect */
+    /* Hover effect with text */
+    #timebtn::before {
+    content: "UP Timeline";
+    opacity: 0;
+    color: white;
+    position: absolute;
+    font-size: 12px;
+    padding: 5px;
+    background-color: #333;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+
+  #timebtn:hover::before {
+    opacity: 1; /* Show text on hover */
+  }
+
+  /* HELP BUTTON */ 
+  #helpbtn::before {
+    content: "Help";
+    opacity: 0;
+    color: white;
+    position: absolute;
+    font-size: 12px;
+    padding: 5px;
+    background-color: #333;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+
+  #helpbtn:hover::before {
+    opacity: 1; /* Show text on hover */
+  }
+
+  /*SEARCH BUTTON*/ 
+  #search::before {
+    content: "Search";
+    opacity: 0;
+    color: white;
+    position: absolute;
+    font-size: 12px;
+    padding: 5px;
+    background-color: #333;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+
+  #search:hover::before {
+    opacity: 1; /* Show text on hover */
+  }
+
+    /*mapButton (GATES)*/ 
+  /* Hover effect with text */
+  #mapButton::before {
+    content: "University Entrances";
+    opacity: 0;
+    color: white;
+    position: absolute;
+    bottom: 50%; 
+    font-size: 12px;
+    padding: 5px;
+    background-color: #333;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+
+  #mapButton:hover::before {
+    opacity: 1; /* Show text on hover */
+  }
+
+</style>
+
+<!--------------------------------------CODE FOR THE CONTENTS OF THE HEADER (TITLE AND TOOLBAR)------------------------------------------------------------------>
+<header class="header">
+<div class="header-title">
+  <h1>Welcome to the University of Pretoria: Hatfield Campus 3D Model</h1>
+</div>
+<div class="header-toolbar">
+  <button id ="helpbtn"><img src="help.jpg" alt="Icon 1"></button>
+  <button id="ToggleButton" onclick="toggleImage()"><img src="nigth.jpg" alt="Icon 2" data-alt="day.jpg"></button>
+  <button id="mapButton" onclick="window.open('https://www.google.com/maps/d/edit?mid=11zfUtH3mfiyO_NSkuh3x2JkNXlwTkqI&usp=sharing', '_blank');">
+    <img src="gate.jpg" alt="Icon 3">
+  </button>
+  <button id="timebtn"><img src="timeline.jpg" alt="Icon 4"></button>
+  <button id="search"><img src="search.jpg" alt="Icon 5"></button>
+</div>
+</header>
+
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
 <body>
 <div id="view">
   <div id="northarrow"></div>
@@ -51,10 +227,7 @@
 
     <!-- page info -->
     <div id="pageinfo">
-      <h1>Current View URL</h1>
-      <div><input id="urlbox" type="text"></div>
-
-      <h1>Usage</h1>
+      <h1>How to Navigate this Web Map:</h1>
       <table id="usage">
         <tr><td colspan="2" class="star">Mouse</td></tr>
         <tr><td>Left button + Move</td><td>Orbit</td></tr>
@@ -72,14 +245,6 @@
         <tr><td>Shift + R</td><td>Reset Camera Position</td></tr>
         <tr><td>Shift + S</td><td>Save Image</td></tr>
       </table>
-
-      <h1>About</h1>
-      <div id="about">
-        This page was made with <a href="https://www.qgis.org/">QGIS</a> and <a href="https://github.com/minorua/Qgis2threejs">Qgis2threejs</a> plugin (version 2.7.3).
-        <div>Powered by <a href="https://threejs.org/">three.js</a>,
-        <a href="https://code.google.com/p/dat-gui/">dat-gui</a>
-        <span id="lib_proj4js"> and <a href="https://trac.osgeo.org/proj4js/">Proj4js</a></span>.</div>
-      </div>
     </div>
   </div>
 </div>
@@ -87,9 +252,6 @@
 <!-- progress bar -->
 <div id="progress"><div id="progressbar"></div></div>
 
-<!-- header and footer -->
-<div id="header"></div>
-<div id="footer"></div>
 
 <!-- animation -->
 <div id="narrativebox" class="ef1">
