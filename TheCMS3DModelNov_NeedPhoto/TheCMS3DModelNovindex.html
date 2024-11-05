@@ -14,7 +14,58 @@
 <script src="./threejs/loaders/GLTFLoader.js"></script>
 <script src="./dat-gui/dat.gui.min.js"></script>
 <script src="./dat-gui_panel.js"></script>
+<script> 
+//------------------------------------------------------CODE FOR SEARCH FUNCTIONALITY---------------------------------------------------------------------// 
+  // Building data object with hardcoded information for "Geography" and "Zoology"
+  const buildingsData = {
+      "geography": {
+          centroid: { x: -130.54077622125624, y: 105.32367919012904, z: 1368.8699951171875 }
+      },
+      "club hall": {
+          centroid: { x: -244.7958096890361, y: 24.112471758387983, z:  1366.7327880859375 }
+      },
+      "rautenbach": {
+          centroid: { x: -291.29433247329143, y: 51.39236497879028, z: 1364.3936767578125 }
+      },
+      "auditorium": {
+          centroid: { x: 187.16469507754664, y: -96.35334910824895, z: 1373.86181640625 }
+      },
+      "conference center": {
+          centroid: { x: 178.04596348822815, y: -58.369971856009215, z: 1374.1981201171875 }
+      },
+      "graduate center": {
+          centroid: { x: 277.29843367173453, y: -63.800733677111566, z: 1376.283203125 }
+      }
+      // Add additional buildings here if needed
+  };
+
+  window.onload = function() {
+      document.getElementById('searchBtn').addEventListener('click', function () {
+          // Get the user input, normalize it to lowercase
+          const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+          // Find the building data by name
+          const buildingData = buildingsData[searchInput];
+          if (!buildingData) {
+              alert("Building not found.");
+              return;
+          }
+
+          // Set camera position and look at the building
+          const { x, y, z } = buildingData.centroid;
+          Q3D.application.camera.position.set(x, y + 70, z + 70); // Set a higher, zoomed-out position
+          Q3D.application.camera.lookAt(new THREE.Vector3(x, y, z));
+          Q3D.application.camera.rotation.x = THREE.MathUtils.degToRad(-30); // Tilt camera downwards
+
+          Q3D.application.render(); // Re-render the scene to reflect the camera change
+          alert("Zoomed to " + searchInput.charAt(0).toUpperCase() + searchInput.slice(1) + " building.");
+      });
+  };
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------// 
+</script>
+
 </head>
+
 <style>
   #layerpanel {
   left: 36px;
@@ -169,7 +220,7 @@
     opacity: 1; /* Show text on hover */
   }
 
-    /*HELP POP-UP STYLING*/ 
+  /*------------------------------------------------------------------HELP POP-UP---------------------------------------------------------------------------------*/ 
     .helpPopup1 {
     display: none; /* Hidden by default */
     position: fixed;
@@ -193,14 +244,18 @@
     top: 10px;
     right: 10px;
     background: none;
+    padding: 2px; 
     border: none;
-    font-size: 30px;
-    color: #333;
+    font-size: 20px;
+    border-radius: 8px; 
+    color: white;
+    background-color: red;
     cursor: pointer;
 }
 
 .close-button1:hover {
-    color: red;
+    background-color: red;
+    color: white;
 }
 
 h2 {
@@ -211,15 +266,14 @@ h2 {
 
 /*------------------------------------------------------------------search bar---------------------------------------------------------------------------------*/ 
 #searchBar {
-  display: none; /* Hide the search bar initially */
   background-color: #05347e;
   position: absolute;
-  width: 425px; 
+  width: 400px;
   top: 70px; /* Position below the header */
   right: 20px;
   padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
+  display: flex; /* Use flex layout when it's shown */
   align-items: center;
   gap: 10px;
   border-radius: 4px;
@@ -227,7 +281,7 @@ h2 {
 }
 
 #searchInput {
-  padding: 8px;
+  padding: 5px;
   font-size: 16px;
   color: #05347e;
   border: 1px solid #05347e;
@@ -238,7 +292,7 @@ h2 {
 }
 
 #searchBtn, #closeBtn {
-  padding: 8px 8px;
+  padding: 5px 5px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -250,7 +304,7 @@ h2 {
 #closeBtn {
   background-color: #f44336;
   color: white;
-  border-radius: 50%;
+  padding: 5PX;
   z-index: 1000;
 }
 
@@ -261,6 +315,9 @@ h2 {
 }
 
 #searchBtn:hover {
+  background-color: white;
+  color: #05347e; 
+  z-index: 1000; 
   
 }
 
@@ -288,7 +345,6 @@ h2 {
   </button>
   <button id="timebtn"><img src="timeline.jpg" alt="Icon 4"></button>
   <button id ="helpbtn"><img src="help.jpg" alt="Icon 1"></button>
-  
 </div>
 </header>
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -296,10 +352,10 @@ h2 {
 <!----------------------------------------CODE FOR THE HELP BUTTON POP-UP----------------------------------------------------------------------------------------->
 <div id="helpPopup" class="helpPopup1">
   <div class="popup-content1">
-      <button class="close-button" id="closeButton1">&times;</button>
+      <button class="close-button1" id="closeButton1">&times;</button>
       <h2>Instructions</h2>
       <p>Here are some helpful instructions for using this Web Map:</p>
-      <p><img src="help_contents.jpg" alt="Instructions Image" width="550" height="500"></p>
+      <p><img src="insructions.png" alt="Instructions Image" width="550" height="500"></p>
   </div>
 </div>
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -462,7 +518,10 @@ closeBtn.addEventListener('click', () => {
   searchBar.style.display = 'none'; // Hide the search bar
 });
 
+
 //-----------------------------------------------------------------------------------------------------------------//
+
+
 
 
 </script>

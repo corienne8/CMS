@@ -86,7 +86,7 @@ body {
 #progressbar {
   width: 0;
   height: 5px;
-  background-color: #2196F3;
+  background-color: white;
   opacity: 1;
 }
 
@@ -171,7 +171,7 @@ body {
   max-width: 480px;
   min-width: 300px;
   z-index: 9999;
-  background-color: white;
+  background-color: #05347e;
   box-shadow: 1px 2px 6px rgba(0,0,0,0.2);
   display: none;
 }
@@ -179,6 +179,8 @@ body {
 #popupbar {
   padding-left: 4px;
   height: 19px;
+  color: white;
+  font-weight: bold;
   border-bottom: 1px solid lightgray;
   border-radius: 3px 3px 0 0;
 }
@@ -220,7 +222,8 @@ body {
 #popupbody table caption {
   background-color: rgb(8, 8, 59);
   color: white;
-  font-size: small;
+  font-size: 18px;
+  font-weight: bold;
   padding: 1px 1px 1px 6px;
   text-align: left;
   vertical-align: bottom;
@@ -285,10 +288,11 @@ body {
 }
 
 #pageinfo > h1 {
-  background-color: gray;
+  background-color: rgb(8, 8, 59);
   color: white;
-  font-size: small;
-  font-weight: normal;
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
   margin-top: 5px;
   margin-bottom: 3px;
   padding: 1px 1px 1px 6px;
@@ -300,48 +304,25 @@ body {
 
 #usage, #about {
   margin-left: 5px;
+  background-color: #05347e;
+
 }
 
 #usage tr:nth-child(odd) {
-  background-color: #eee;
+  background-color: rgb(8, 8, 59);
 }
 
 #usage td.star {
+  text-align: left;
+  font-size: 18px;
   font-weight: bold;
+  background-color: rgb(8, 8, 59);
 }
 
-#about ul {
-  margin: 5px;
-  margin-left: 20px;
-  padding: 0px;
-}
-
-#about img {
-  float: left;
-  margin-right: 5px;
-  width: 24px;
-  height: 24px;
-}
-
-.license {
-  font-size: xx-small;
-}
-
-.download-link {
-  display: block;
-  border: 1px solid darkgray;
-  background: lightgray;
-  color: black;
-  font-size: large;
-  margin: 10px 50px 10px;
-  padding: 8px;
-  text-align: center;
-  text-decoration: none;
-}
 
 /* measure distance */
 table.measure tr:nth-child(odd) {
-  background-color: #eee;
+  background-color: rgb(8, 8, 59);
 }
 
 table.measure tr > td:nth-child(2) {
@@ -419,9 +400,10 @@ table.measure tr > td:nth-child(2) {
   max-height: 80%;
   min-width: 200px;
 
-  border: 1px solid gray;
+  border: 1px solid WHITE;
+  color: white; 
   border-radius: 2px;
-  background-color: rgba(255, 255, 255, .95);
+  background-color: #05347e;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, .2);
   padding: 8px;
 
