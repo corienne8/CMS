@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GMT_Processing</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<base target="_blank">
+<link rel="stylesheet" type="text/css" href="./Timeline.css">
+<script src="./threejs/three.min.js"></script>
+<script src="./threejs/OrbitControls.js"></script>
+<script src="./threejs/ViewHelper.js"></script>
+<script src="./Timeline.js"></script>
+<script src="./dat-gui/dat.gui.min.js"></script>
+<script src="./dat-gui_panel.js"></script>
+<script>
+  window.onload = function() {
+         // Function to toggle visibility of a specific layer by its ID
+         function toggleLayerVisibility(layerId) {
+             const mapLayers = Q3D.application.scene.mapLayers;
+
+             // First, turn off all layers except for layer ID 39
+             Object.keys(mapLayers).forEach(id => {
+             const layer = mapLayers[id];
+             if (layer.properties && layer.properties.visible) {
+             // Check if the current layer ID is not 39
+               if (id !== "39") {
+              layer.properties.visible = false; // Set visibility to false
+                if (layer.objectGroup) {
+             layer.objectGroup.visible = false; // Also set the object group to invisible
+         }
+     }
+ }
+});
+             // Now turn on the selected layer
+             const selectedLayer = mapLayers[layerId];
+             if (selectedLayer) {
+                 selectedLayer.properties.visible = true; // Set the selected layer to visible
+                 console.log(`Layer "${selectedLayer.properties.name}" visibility set to: ${selectedLayer.properties.visible}`);
+                 
+                 if (selectedLayer.objectGroup) {
+                     selectedLayer.objectGroup.visible = true; // Set the object group to visible
+                     console.log(`Layer objectGroup visibility set to: ${selectedLayer.objectGroup.visible}`);
+                 } else {
+                     console.warn("Layer objectGroup not found.");
+                 }
+
+                 Q3D.application.render(); // Re-render the scene
+             } else {
+                 console.warn("Layer not found.");
+             }
+         }
+   // Assign each button to a specific layer ID
+   document.getElementById('timelinebtn').addEventListener('click', function () {
+       toggleLayerVisibility("38"); 
+   });
+
+   document.getElementById('1890').addEventListener('click', function () {
+       toggleLayerVisibility("25"); 
+   });
+
+   document.getElementById('1900').addEventListener('click', function () {
+       toggleLayerVisibility("26"); 
+   });
+
+   document.getElementById('1910').addEventListener('click', function () {
+       toggleLayerVisibility("27"); 
+   });
+
+   document.getElementById('1920').addEventListener('click', function () {
+       toggleLayerVisibility("28"); 
+   });
+
+   document.getElementById('1930').addEventListener('click', function () {
+       toggleLayerVisibility("29"); 
+   });
+
+   document.getElementById('1940').addEventListener('click', function () {
+       toggleLayerVisibility("30"); 
+   });
+
+   document.getElementById('1950').addEventListener('click', function () {
+       toggleLayerVisibility("31"); 
+   });
+
+   document.getElementById('1960').addEventListener('click', function () {
+       toggleLayerVisibility("32"); 
+   });
+
+   document.getElementById('1970').addEventListener('click', function () {
+       toggleLayerVisibility("33"); 
+   });
+
+   document.getElementById('1980').addEventListener('click', function () {
+       toggleLayerVisibility("34"); 
+   });
+
+   document.getElementById('1990').addEventListener('click', function () {
+       toggleLayerVisibility("35"); 
+   });
+
+   document.getElementById('2000').addEventListener('click', function () {
+       toggleLayerVisibility("36"); 
+   });
+
+   document.getElementById('2010').addEventListener('click', function () {
+       toggleLayerVisibility("37"); 
+   });
+
+   
+
+};
+</script>
+<style> 
+
+  .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: white;
+      border-bottom: #05347e;
+      border-style: outset;
+      color: #fff;
+      }
+  
+      .header-title h1 {
+      font-size: 1.5em;
+      color: #05347e; 
+      }
+  
+      .header-toolbar button img {
+      width: 30px;
+      height: 30px;
+      transition: transform 0.2s;
+      z-index: 1000
+      }
+  
+      .header-toolbar button {
+      background: #05347e;
+      border: white;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 10px;
+      }
+  
+      .header-toolbar button:hover img {
+      transform: scale(1.1);
+      }
+
+      #homebtn::before {
+      content: "Home";
+      opacity: 0;
+      color: white;
+      position: absolute;
+      font-size: 12px;
+      padding: 5px;
+      background-color: #333;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+      }
+
+    /*-------------------------------------------------------TIMELINE STYLING--------------------------------------------------------------------------------------- */ 
+   /* Hover effect */
+      /* Hover effect with text */
+      #timelinebtn::before {
+      content: "UP Timeline";
+      opacity: 0;
+      color: white;
+      position: absolute;
+      font-size: 12px;
+      padding: 5px;
+      background-color: #333;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: opacity 0.3s ease;
+      z-index: 1000; 
+    }
+  
+    #timelinebtn:hover::before {
+      opacity: 1; /* Show text on hover */
+    }
+  
+  
+  #timeline {
+    position: fixed;
+    z-index: 1000;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    border-top: 2px solid #05347e;
+    display: none; /* Hidden by default */
+  }
+  
+  .timeline-container {
+    display: flex;
+    z-index: 1000;
+    justify-content: space-around;
+    padding: 10px;
+  }
+  
+  .timeline-item {
+    padding: 5px;
+    z-index: inherit;
+    background-color: #05347e;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer; 
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* ---------------------------------------------------------------------TIMELINE POP-UP----------------------------------------------------------------------------*/
+  .modal {
+      display: none;
+      position: fixed;
+      top: 150; /* Keep it at the top */
+      right: 0; /* Align to the right side of the viewport */
+      width: 600px; /* Increase width to make it larger */
+      height: auto; /* Allow height to adjust based on content */
+      z-index: 1000; /* Ensure it appears on top of other elements */
+       /* Increase padding for better spacing inside the modal */
+  }
+  
+  .modal-content {
+      background-color: #fff;
+      padding: 1px;
+      text-align: center;
+      max-width: 100%; /* Ensure it doesn’t exceed the modal’s width */
+      max-height: 90%; /* Limit height to prevent overflow */
+      overflow: auto; /* Allow scrolling if content is too large */
+  }
+  
+  .modal-content img {
+      max-width: 100%;
+      height: auto; /* Allow height to adjust based on aspect ratio */
+      max-height: 500px; /* Increase max height for images */
+      border-radius: 5px;
+  }
+  
+  
+  .close-btn {
+      position: absolute; /* Allows positioning within the modal content */
+      top: 10px; /* Adjusted to move the button down from the top */
+      right: 10px; /* Aligns the button to the right */
+      background-color: red; /* Button color */
+      color: white; /* Text color */
+      border: none; /* Remove default button border */
+      padding: 5px 10px; /* Padding for button */
+      border-radius: 3px; /* Rounded corners */
+      cursor: pointer; /* Pointer cursor on hover */
+      font-size: 16px; /* Font size */
+  }
+
+  .Legend {
+    max-width: 70%;   /* Adjusts image width */
+    height: auto;     /* Keeps image aspect ratio */
+    border: 2px solid #333; /* Adds a border */
+    border-radius: 8px; /* Rounds the corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Adds a shadow */
+    margin: 12px; /* Adjusts margin as needed */
+    display: block;
+    position: absolute; /* Use absolute positioning */
+    bottom: 45px; /* Position from the top */
+    left: 0; /* Position from the left */
+    z-index: 1000; /* Ensure it appears on top of other elements */
+}
+
+
+/*-----------------------------------------------------------------------------HELP BUTTON POP-UP--------------------------------------------------------------*/ 
+#timehelp::before {
+  content: "Help";
+  opacity: 0;
+  color: white;
+  position: absolute;
+  font-size: 12px;
+  padding: 5px;
+  background-color: #333;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+  z-index: 1000; 
+}
+
+#helpoverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;  /* Initially hidden */
+  z-index: 10;
+}
+
+.helppopup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    max-width: 600px;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.helppopup-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.helpclose-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    padding: 2px; 
+    border: none;
+    font-size: 20px;
+    border-radius: 8px; 
+    color: white;
+    background-color: red;
+    cursor: pointer;
+}
+
+.helpclose-btn:hover {
+    background-color: red;
+    color: white;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+  </style>
+  <header class="header">
+    <div class="header-title">
+      <h1>Welcome to University of Pretoria: Hatfield Campus 3D Timeline</h1>
+    </div>
+    <div class="header-toolbar">
+      <button id="timehelp"><img src="help.jpg"></button>
+      <button id="timelinebtn"><img src="timeline.jpg" alt="Icon 4"></button>
+      <a href="TheCMS3DModelNovindex.html"> 
+        <button id="homebtn"><img src="home.PNG" alt="Icon 5"></button>
+    </a>
+    </div>
+  </header>
+</head>
+<body>
+
+  <!--OVERLAY AND POPUPS FOR HELPBTN-->
+  <div class="helpoverlay" id="helpoverlay">
+    <div class="helppopup" id="helppopup">
+        <button class="helpclose-btn" onClick="closePopup()">X</button>
+        <div class="helppopup-content">
+            <h2>Instructions</h2>
+            <img src="insructions.png" alt="popup img">
+        </div>
+    </div>
+  </div>
+
+
+
+  <img src="Legend.JPG" alt="Displayed Image" class = "Legend">
+  <!-- CODE FOR THE DECADE BUTTONS OF THE TIMELINE AND THE MODAL (POP-UP)-->
+<div id="timeline" class="hidden">
+  <div class="timeline-container">
+    <button class="timeline-item" id="1890" onclick="openModal('1890.jpg')">1890-1900</button>        
+    <button class="timeline-item" id = "1900" onclick="openModal('11.jpg')">1901-1910</button>
+    <button class="timeline-item" id = "1910" onclick="openModal('12.jpg')">1911-1920</button>
+    <button class="timeline-item" id = "1920" onclick="openModal('13.jpg')">1921-1930</button>
+    <button class="timeline-item" id = "1930" onclick="openModal('14.jpg')">1931-1940</button>
+    <button class="timeline-item" id = "1940" onclick="openModal('15.jpg')">1941-1950</button>
+    <button class="timeline-item" id = "1950" onclick="openModal('16.jpg')">1951-1960</button>
+    <button class="timeline-item" id = "1960" onclick="openModal('17.jpg')">1961-1970</button>
+    <button class="timeline-item" id = "1970" onclick="openModal('18.jpg')">1971-1980</button>
+    <button class="timeline-item" id = "1980" onclick="openModal('19.jpg')">1981-1990</button>
+    <button class="timeline-item" id = "1990" onclick="openModal('20.jpg')">1991-2000</button>
+    <button class="timeline-item" id = "2000" onclick="openModal('21.jpg')">2001-2010</button>
+    <button class="timeline-item" id = "2010" onclick="openModal('22.jpg')">2011-2020</button>
+    
+  </div>
+  </div>
+  
+  <div id="modal" class="modal">
+  <div class="modal-content" id="modal-content">
+    <span class="closebtn" onclick="closeModal()">Close</span>
+  </div>
+</div>
+<script>
+  
+    // SCRIPT FOR THE TIMELINE MODAL // 
+    function openPopup() {
+      document.getElementById("popup1").style.display = "block"; 
+      document.getElementById("overlay").style.display = "block";
+  }
+
+  function closePopup() {
+      document.getElementById("popup1").style.display = "none";
+      document.getElementById("overlay").style.display = "none"; 
+  }
+  document.getElementById('timelinebtn').addEventListener('click', function() {
+        const timeline = document.getElementById('timeline');
+        if (timeline.classList.contains('hidden')) {
+            timeline.classList.remove('hidden');
+            timeline.style.display = 'block';
+        } else {
+            timeline.classList.add('hidden');
+            timeline.style.display = 'none';
+        }
+    });
+
+    function openModal(imageSrc) {
+    const modal = document.getElementById("modal");
+    const modalContent = document.getElementById("modal-content");
+
+    //set the inner HTML of modal content to display the image
+    modalContent.innerHTML = `<img src="${imageSrc}" alt="Modal Image">` +'<span class="close-btn" onclick="closeModal()">X</span>';
+    modal.style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+
+//-----------------------------------------------------------------------------------------------------------------//
+</script>
+
+<div id="view">
+  <div id="northarrow"></div>
+  <div id="navigation"></div>
+</div>
+
+<!-- popup -->
+<div id="popup">
+  <div id="closebtn">&times;</div>
+  <div id="popupbar"></div>
+  <div id="popupbody">
+    <div id="popupcontent"></div>
+
+    <!-- query result -->
+    <div id="queryresult">
+      <table id="qr_coords_table">
+        <caption>Clicked coordinates <div id="zoomtopoint" class="action-zoom zoombtn"></div></caption>
+        <tr><td id="qr_coords"></td></tr>
+      </table>
+
+      <table id="qr_layername_table">
+        <caption>Layer <div id="zoomtolayer" class="action-zoom zoombtn"></div></caption>
+        <tr><td id="qr_layername"></td></tr>
+      </table>
+
+      <table id="qr_attrs_table">
+        <caption>Attributes</caption>
+      </table>
+
+      <!-- camera actions and measure tool -->
+      <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
+      <div id="measurebtn" class="action-btn">Measure distance</div>
+    </div>
+
+    <!-- page info -->
+    <div id="pageinfo">
+      <h1>How to Navigate this Web Map:</h1>
+      <table id="usage">
+        <tr><td colspan="2" class="star">Mouse</td></tr>
+        <tr><td>Left button + Move</td><td>Orbit</td></tr>
+        <tr><td>Mouse Wheel</td><td>Zoom</td></tr>
+        <tr><td>Right button + Move</td><td>Pan</td></tr>
+
+        <tr><td colspan="2" class="star">Keys</td></tr>
+        <tr><td>Arrow keys</td><td>Move Horizontally</td></tr>
+        <tr><td>Shift + Arrow keys</td><td>Orbit</td></tr>
+        <tr><td>Ctrl + Arrow keys</td><td>Rotate</td></tr>
+        <tr><td>Shift + Ctrl + Up / Down</td><td>Zoom In / Out</td></tr>
+        <tr><td>L</td><td>Toggle Label Visibility</td></tr>
+        <tr><td>R</td><td>Start / Stop Orbit Animation</td></tr>
+        <tr><td>W</td><td>Wireframe Mode</td></tr>
+        <tr><td>Shift + R</td><td>Reset Camera Position</td></tr>
+        <tr><td>Shift + S</td><td>Save Image</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- progress bar -->
+<div id="progress"><div id="progressbar"></div></div>
+
+<!-- header and footer -->
+<div id="header"></div>
+<div id="footer"></div>
+
+<!-- animation -->
+<div id="narrativebox" class="ef1">
+  <div id="narbody">
+
+  </div>
+  <div id="nextbtn"></div>
+</div>
+
+<script>
+Q3D.Config.viewpoint = {lookAt:{x:-77168.17523251205,y:-2849818.4016901935,z:1399.07958984375},pos:{x:-77168.17523251205,y:-2850602.1261739754,z:2182.8040736257917}};
+Q3D.Config.localMode = true;
+Q3D.Config.northArrow.enabled = true;
+Q3D.Config.northArrow.color = 0xe31a1c;
+
+var container = document.getElementById("view"),
+    app = Q3D.application,
+    gui = Q3D.gui;
+
+app.init(container);    // initialize viewer
+
+// load the scene
+app.loadSceneFile("./data/Present/scene.js", function (scene) {
+  // scene file has been loaded
+  app.start();
+
+  gui.dat.initLayersFolder(scene);
+
+}, function (scene) {
+  // all relevant files have been loaded
+
+  if (Q3D.Config.gui.customPlane) {
+    // specify preferred values. If not specified, z range of scene bounding box is used.
+    var zMin = undefined,
+        zMax = undefined;
+    gui.dat.initCustomPlaneFolder(zMin, zMax);
+  }
+});
+
+
+</script>
+</body>
+</html>
