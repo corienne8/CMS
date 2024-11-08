@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <base target="_blank">
 <link rel="stylesheet" type="text/css" href="./Qgis2threejs.css">
+<link rel = "icon" href ="CMS Logo Design.png">
 <script src="./threejs/three.min.js"></script>
 <script src="./threejs/OrbitControls.js"></script>
 <script src="./threejs/ViewHelper.js"></script>
@@ -88,14 +89,54 @@
 
   .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding: 10px 20px;
   background-color: white;
   border-bottom: #05347e;
   border-style: outset;
   color: #05347e;
   }
+
+  .header-logo {
+  margin-right: 20px;
+  margin-left: 5px;
+}
+.logo {
+  height: 40px; /* Adjust the size as needed */
+  margin-right: 20px;
+}
+#LogowithBorder {
+  border: 0.4px solid navy;
+  padding: 0px;
+}
+.logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 130px; /* Adjust width as needed */
+  background-color: rgba(0, 0, 0, 0.8); /* Black background with transparency */
+  color: #fff; /* White text */
+  text-align: center;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 3px;
+  position: absolute;
+  bottom: 50%; /* Position above the logo */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1; /* Ensure the tooltip appears above other elements */
+}
+
+.logo-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
 
   .header-title h1 {
   font-size: 1.5em;
@@ -326,6 +367,22 @@ h2 {
 
 <!--------------------------------------CODE FOR THE CONTENTS OF THE HEADER (TITLE AND TOOLBAR)------------------------------------------------------------------>
 <header class="header">
+   <!-----------Logo section with link -->
+   <div class="header-logo">
+    <a href="https://u20492422.wixsite.com/gmt320-project-2024" target="_blank" class="logo-container">
+      <img src="CMS Logo Design.png" alt="Second Logo" class="logo" id="LogowithBorder">
+      <span class="tooltip-text">CMS Website</span>
+      <!---------UP LOGO-->
+    <a href="https://www.up.ac.za/" target="_blank" class="logo-container">
+      <img src="UP_LOGO2.png" alt="University Logo" class="logo" id="UP_logo">
+      <span class="tooltip-text">University of Pretoria</span>
+    </a>
+     <!-- VIRTUAL TOUR LOGO with link -->
+    <a href="https://virtualcampus.up.ac.za/vt2/" target="_blank" class="logo-container">
+      <img src="VirtualTour.jpg" alt="Second Logo" class="logo" id="VirtualTourlogo">
+      <span class="tooltip-text">Virtual Campus</span>
+    </a>
+  </div>
 <div class="header-title">
   <h1>Welcome to the University of Pretoria: Hatfield Campus 3D Model</h1>
 </div>
@@ -359,9 +416,6 @@ h2 {
   </div>
 </div>
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-
-
 
 
 
