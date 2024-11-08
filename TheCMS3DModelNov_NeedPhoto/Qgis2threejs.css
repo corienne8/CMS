@@ -372,7 +372,7 @@ table.measure tr > td:nth-child(2) {
 #northarrow {
   position: absolute;
   left: 12px;
-  bottom: 16px;
+  bottom: 130px;
   width: 80px;
   height: 80px;
   z-index: 1000;
@@ -383,7 +383,7 @@ table.measure tr > td:nth-child(2) {
 #navigation {
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  bottom: 120px;
   width: 128px;
   height: 128px;
   z-index: 1000;

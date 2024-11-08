@@ -266,6 +266,7 @@ h2 {
 
 /*------------------------------------------------------------------search bar---------------------------------------------------------------------------------*/ 
 #searchBar {
+  display: none; 
   background-color: #05347e;
   position: absolute;
   width: 400px;
@@ -319,6 +320,9 @@ h2 {
   color: #05347e; 
   z-index: 1000; 
   
+}
+.hidden {
+
 }
 
 
@@ -509,6 +513,11 @@ window.addEventListener('click', function(event) {
 const search = document.getElementById('search');
 const searchBar = document.getElementById('searchBar');
 const closeBtn = document.getElementById('closeBtn');
+
+// Hide search bar initially
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById('searchBar').style.display = 'none';
+});
 
 // When the 'searchbtn1' button is clicked, show the search bar
 search.addEventListener('click', () => {
