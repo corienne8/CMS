@@ -6,12 +6,12 @@
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <base target="_blank">
 <link rel="stylesheet" type="text/css" href="./Timeline.css">
-<script src="./threejs/three.min.js"></script>
-<script src="./threejs/OrbitControls.js"></script>
-<script src="./threejs/ViewHelper.js"></script>
+<script src="./three.minT.js"></script>
+<script src="./OrbitControlsT.js"></script>
+<script src="./ViewHelperT.js"></script>
 <script src="./Timeline.js"></script>
-<script src="./dat-gui/dat.gui.min.js"></script>
-<script src="./dat-gui_panel.js"></script>
+<script src="./dat.gui.minT.js"></script>
+<script src="./dat-gui_panelT.js"></script>
 <script>
   window.onload = function() {
          // Function to toggle visibility of a specific layer by its ID
@@ -293,7 +293,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: none;  /* Initially hidden */
-  z-index: 10;
+  z-index: 1000;
 }
 
 .helppopup {
@@ -312,6 +312,7 @@
 .helppopup-content {
     padding: 20px;
     text-align: center;
+    z-index: 1000;
 }
 
 .helpclose-btn {
@@ -326,6 +327,7 @@
     color: white;
     background-color: red;
     cursor: pointer;
+    z-index: 1000;
 }
 
 .helpclose-btn:hover {
@@ -336,6 +338,7 @@
 h2 {
     font-size: 24px;
     margin-bottom: 20px;
+    z-index: 1000;
 }
 
   </style>
@@ -517,7 +520,7 @@ var container = document.getElementById("view"),
 app.init(container);    // initialize viewer
 
 // load the scene
-app.loadSceneFile("./data/Present/scene.js", function (scene) {
+app.loadSceneFile("./sceneT.js", function (scene) {
   // scene file has been loaded
   app.start();
 
