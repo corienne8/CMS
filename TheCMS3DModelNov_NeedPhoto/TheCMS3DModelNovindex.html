@@ -307,6 +307,7 @@ h2 {
 
 /*------------------------------------------------------------------search bar---------------------------------------------------------------------------------*/ 
 #searchBar {
+  display: none; 
   background-color: #05347e;
   position: absolute;
   width: 400px;
@@ -361,6 +362,9 @@ h2 {
   z-index: 1000; 
   
 }
+.hidden {
+
+}
 
 
 </style>
@@ -400,7 +404,9 @@ h2 {
   <button id="mapButton" onclick="window.open('https://www.google.com/maps/d/edit?mid=11zfUtH3mfiyO_NSkuh3x2JkNXlwTkqI&usp=sharing', '_blank');">
     <img src="gate.jpg" alt="Icon 3">
   </button>
-  <button id="timebtn"><img src="timeline.jpg" alt="Icon 4"></button>
+  <a href="Timeline.html">
+    <button id="timebtn"><img src="timeline.jpg" alt="Icon 4"></button>
+  </a>
   <button id ="helpbtn"><img src="help.jpg" alt="Icon 1"></button>
 </div>
 </header>
@@ -561,6 +567,11 @@ window.addEventListener('click', function(event) {
 const search = document.getElementById('search');
 const searchBar = document.getElementById('searchBar');
 const closeBtn = document.getElementById('closeBtn');
+
+// Hide search bar initially
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById('searchBar').style.display = 'none';
+});
 
 // When the 'searchbtn1' button is clicked, show the search bar
 search.addEventListener('click', () => {

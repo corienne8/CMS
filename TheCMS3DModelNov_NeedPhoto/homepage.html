@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GMT_Processing</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<base target="_blank">
+<link rel="stylesheet" type="text/css" href="homepage.css">
+</head>
+<body> 
+
+    <header></header>
+
+    <!--MAIN CONTENT-->
+    <div class="wrapper">
+        <main> 
+            <div class="container">
+                <button id="firstbtn" onClick="openPopup()">Fly Through UP</button>
+            </div>
+        </main>
+
+        <!--OVERLAY AND POPUPS-->
+        <div class="overlay" id="overlay">
+            <div class="popup" id="popup">
+                <button class="close-btn" onClick="closePopup()">X</button>
+                <div class="popup-content">
+                    <h2>Instructions</h2>
+                    <img src="insructions.png" alt="popup img">
+                    <a href="./TheCMS3DModelNovindex.html">
+                        <button id="startbtn">Start</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //JAVASCRIPT FOR OPENING AND CLOSING POPUP// 
+        function openPopup() {
+            document.getElementById("popup").style.display = "block"; 
+            document.getElementById("overlay").style.display = "block"; 
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none"; 
+            document.getElementById("overlay").style.display = "none"; 
+        }
+    </script>
+</body>
+</html>
+
