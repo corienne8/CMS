@@ -310,7 +310,6 @@
 }
 
 .helppopup-content {
-    padding: 20px;
     text-align: center;
     z-index: 1000;
 }
@@ -347,7 +346,7 @@ h2 {
       <h1>Welcome to University of Pretoria: Hatfield Campus 3D Timeline</h1>
     </div>
     <div class="header-toolbar">
-      <button id="timehelp"><img src="help.jpg"></button>
+      <button id="timehelp" onclick="openPopup1()"><img src="help.jpg"></button>
       <button id="timelinebtn"><img src="timeline.jpg" alt="Icon 4"></button>
       <a href="./TheCMS3DModelNovindex.html"> 
         <button id="homebtn"><img src="home.PNG" alt="Icon 5"></button>
@@ -360,10 +359,10 @@ h2 {
   <!--OVERLAY AND POPUPS FOR HELPBTN-->
   <div class="helpoverlay" id="helpoverlay">
     <div class="helppopup" id="helppopup">
-        <button class="helpclose-btn" onClick="closePopup()">X</button>
+        <button class="helpclose-btn" onClick="closePopup2()">X</button>
         <div class="helppopup-content">
             <h2>Instructions</h2>
-            <img src="insructions.png" alt="popup img">
+            <img src="timelinehelp.png" alt="popup img" width="550" height="500">
         </div>
     </div>
   </div>
@@ -400,8 +399,8 @@ h2 {
   
     // SCRIPT FOR THE TIMELINE MODAL // 
     function openPopup() {
-      document.getElementById("popup1").style.display = "block"; 
-      document.getElementById("overlay").style.display = "block";
+      document.getElementById("popup1").style.display = "none"; 
+      document.getElementById("overlay").style.display = "none";
   }
 
   function closePopup() {
@@ -431,7 +430,17 @@ h2 {
   function closeModal() {
     document.getElementById("modal").style.display = "none";
   }
+//script for timeline help button
+function openPopup1() {
+    document.getElementById("helpoverlay").style.display = "block";
+    document.getElementById("helppopup").style.display = "block";
+  }
 
+  // Function to close the help popup
+  function closePopup2() {
+    document.getElementById("helpoverlay").style.display = "none";
+    document.getElementById("helppopup").style.display = "none";
+  }
 //-----------------------------------------------------------------------------------------------------------------//
 </script>
 
