@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <base target="_blank">
 <link rel="stylesheet" type="text/css" href="./Timeline.css">
+<link rel = "icon" href ="CMS Logo Design.png">
 <script src="./three.minT.js"></script>
 <script src="./OrbitControlsT.js"></script>
 <script src="./ViewHelperT.js"></script>
@@ -113,25 +114,36 @@
 <style> 
 
   .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: white;
-      border-bottom: #05347e;
-      border-style: outset;
-      color: #fff;
-      }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: #05347e;
+    border-style: outset;
+    color: #fff;
+  }
+  .header-logo {
+    display: flex;
+    margin-right: 20px;
+    margin-left: 5px;
+}
+  .logo {
+    height: 40px; /* Adjust the size as needed */
+    margin-right: 10px;
+}
   
       .header-title h1 {
       font-size: 1.5em;
       color: #05347e; 
       }
-  
+  .header-toolbar{
+    margin-left: 390px;
+  }
       .header-toolbar button img {
-      width: 30px;
-      height: 30px;
-      transition: transform 0.2s;
+      width: 40px;
+      height: 40px;
+      /*transition: transform 0.2s;*/
       z-index: 1000
       }
   
@@ -342,6 +354,18 @@ h2 {
 
   </style>
   <header class="header">
+    <!-----------Logo section with link -->
+   <div class="header-logo">
+    <a href="https://u20492422.wixsite.com/gmt320-project-2024" target="_blank">
+      <img src="CMS Logo Design.png" alt="Second Logo" class="logo">
+      <!---------UP LOGO-->
+    <a href="https://www.up.ac.za/" target="_blank" class="logo-container">
+      <img src="UP_LOGO2.png" alt="University Logo" class="logo">
+    </a>
+     <!-- VIRTUAL TOUR LOGO with link -->
+    <a href="https://virtualcampus.up.ac.za/vt2/" target="_blank">
+      <img src="VirtualTour.jpg" alt="Second Logo" class="logo">
+    </a>
     <div class="header-title">
       <h1>Welcome to University of Pretoria: Hatfield Campus 3D Timeline</h1>
     </div>
